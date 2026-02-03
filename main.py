@@ -1,5 +1,7 @@
 import sys
 
+from src.models.cnn_model import run_cnn
+from src.models.mlp_model import run_mlp
 from src.models.rfc_model import run_rfc
 
 
@@ -12,12 +14,21 @@ def main():
         return
 
     model_name = args[0].lower()
-    action = args[1].lower() if len(args) > 2 else None
-    path = args[2] if len(args) > 2 else None
+
+    if len(args) > 2:
+        action = args[1].lower()
+        path = args[2]
+    else:
+        action = None
+        path = None
 
     match model_name:
         case "rfc":
             run_rfc(action=action, path=path)
+        case "mlp":
+            run_mlp(action=action, path=path)
+        case "cnn":
+            run_cnn(action=action, path=path)
         case _:
             print(f"Model '{model_name}' nie jest jeszcze zaimplementowany.")
 
