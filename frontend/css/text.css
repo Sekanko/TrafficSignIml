@@ -6,9 +6,10 @@
     --color-accent: #a39bd6;
 }
 
+/* GŁÓWNE STYLE STRONY */
 body {
-    background-color: #18122B !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--color-white);
 }
 
 .text-styling {
@@ -39,3 +40,50 @@ body {
     border-radius: 2px;
     opacity: 0.7;
 }
+
+/* --- NAVBAR STYLING (Nowe) --- */
+
+.custom-navbar {
+    padding: 1.5rem 0;
+    background-color: transparent;
+}
+
+.navbar-brand {
+    color: var(--color-white) !important;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+}
+
+/* Klasa pomocnicza do kolorowania końcówki logo */
+.text-accent {
+    color: var(--color-accent);
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-accent) !important;
+    transform: translateY(-1px);
+}
+
+/* Naprawa ikony hamburgera na ciemnym tle */
+.navbar-toggler {
+    border: none;
+    padding: 0;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+

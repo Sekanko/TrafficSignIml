@@ -1,33 +1,89 @@
+:root {
+    --ub-bg: #212529;
+    --ub-light: #635985;
+    --ub-accent: #a39bd6; 
+    --ub-white: #ffffff;
+}
+
 .upload-box {
-    border: 2px dashed var(--color-light);
+    position: relative;
+    display: block;
+    width: 100%;
+    
+    border: none !important;
+    background: transparent !important;
+    
     border-radius: 12px;
     padding: 3rem 1rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.02);
-    color: var(--color-light);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.3s ease;
 }
 
-.upload-box:hover {
-    border-color: var(--color-accent);
-    background-color: rgba(99, 89, 133, 0.1);
-    transform: translateY(-2px); 
-    color: var(--color-white);
+.upload-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; right: -50%; bottom: -50%;
+    background: conic-gradient(
+        transparent, 
+        var(--ub-accent), 
+        transparent, 
+        var(--ub-accent), 
+        transparent
+    );
+    background-color: var(--ub-bg);
+    z-index: -2;
+    animation: spin-border 4s linear infinite;
+}
+
+.upload-box::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px; right: 3px; bottom: 3px;
+    background-color: var(--ub-bg) !important;
+    border-radius: 9px;
+    z-index: -1;
+    transition: box-shadow 0.5s ease-in-out;
+    box-shadow: 0 0 0 0 transparent;
+}
+
+.upload-box:hover::after {
+    box-shadow: 0 0 0 3px var(--ub-accent);
+}
+
+.upload-box svg,
+.upload-box .upload-text,
+.upload-box img {
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes spin-border {
+    100% { transform: rotate(360deg); }
 }
 
 .upload-text {
+    color: var(--ub-light);
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
     margin-top: 10px;
+    transition: color 0.3s ease;
 }
 
-.upload-box svg {
-    transition: transform 0.3s ease;
+.upload-box:hover {
+    transform: translateY(-2px);
+}
+
+.upload-box:hover .upload-text {
+    color: var(--ub-white);
 }
 
 .upload-box:hover svg {
+    fill: var(--ub-accent);
     transform: scale(1.1);
+    transition: all 0.3s ease;
 }
