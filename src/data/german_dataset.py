@@ -3,7 +3,7 @@ import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
 
-def get_dataframes():
+def get_german_dataframes():
     path = kagglehub.dataset_download("meowmeowmeowmeowmeow/gtsrb-german-traffic-sign")
     
     train_csv = os.path.join(path, 'Train.csv')
