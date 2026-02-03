@@ -18,7 +18,7 @@ def get_dataframes():
     train_df, val_df = train_test_split(
         full_train_df, 
         test_size=0.2, 
-        random_state=42, 
+        random_state=50, 
         stratify=full_train_df['ClassId'] 
     )
 
