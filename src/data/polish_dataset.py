@@ -2,11 +2,8 @@ import os
 import kagglehub
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
-try:
-    from .map_classes import get_polish_mapping
-except ImportError:
-    from map_classes import get_polish_mapping
+from .map_classes import get_polish_mapping
+from .standarize_datasets import standardize_to_gtsrb
 
 def get_polish_dataframes(val_size=0.2, test_size=0.1, random_state=42):
     path = kagglehub.dataset_download("chriskjm/polish-traffic-signs-dataset")
@@ -21,11 +18,11 @@ def get_polish_dataframes(val_size=0.2, test_size=0.1, random_state=42):
                 if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
                     data.append({
                         'Path': os.path.join(root, file),
-                        'Label': folder_name,
                         'ClassId': class_id
                     })
 
     full_df = pd.DataFrame(data)
+    full_df = standardize_to_gtsrb(full_df)
 
     if full_df.empty:
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
