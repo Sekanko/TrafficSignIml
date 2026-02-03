@@ -1,0 +1,8 @@
+pillow
+tensorflow
+numpy
+pandas
+scikit-learn
+kagglehub
+matplotlib
+joblib
