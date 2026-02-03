@@ -1,19 +1,17 @@
-import os
-
 import joblib
-import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
-from src.data.german_dataset import get_german_dataframes
 from src.data.preprocess_img import preprocess_image
+from src.models.run_model import run_model
 
 
-def build_rfc(n_estimators=100):
-    return RandomForestClassifier(n_estimators=n_estimators, n_jobs=-1, random_state=42)
+def build_rfc(input_shape, num_classes):
+    # input_shape i num_classes ignorowane dla RFC, ale zachowane dla spójności interfejsu
+    return RandomForestClassifier(n_estimators=100, n_jobs=-1, random_state=50)
 
 
-def train_rfc(model, train_df):
+def train_rfc(model, train_df, val_df=None):
     print("Wczytywanie i przetwarzanie obrazów do treningu...")
     X = preprocess_image(train_df["Path"])
 
@@ -41,7 +39,7 @@ def evaluate_rfc(model, test_df):
 
 def predict_proba_rfc(model, image_path):
     X = preprocess_image(image_path)
-    X_flat = X.reshape(1, -1)
+    X_flat = X.reshape(X.shape[0], -1)
     return model.predict_proba(X_flat)
 
 
@@ -54,46 +52,18 @@ def load_rfc(path="rfc_model.joblib"):
     return joblib.load(path)
 
 
+
+
 def run_rfc(action=None, path=None):
-    full_path = None
-    if path:
-        if not os.path.exists("saved_models"):
-            os.makedirs("saved_models")
-            print("Utworzono folder saved_models")
-
-        full_path = (
-            path if os.path.dirname(path) else os.path.join("saved_models", path)
-        )
-
-    print("Pobieranie danych...")
-    train_df, _, test_df = get_german_dataframes()
-
-    if action == "load" and full_path:
-        print(f"Wczytywanie modelu z {full_path}...")
-        model = load_rfc(full_path)
-    else:
-        print("Trenowanie nowego modelu RFC...")
-        model = build_rfc(n_estimators=100)
-        model = train_rfc(model, train_df)
-
-    if action == "save" and full_path:
-        os.makedirs(os.path.dirname(full_path), exist_ok=True)
-        save_rfc(model, full_path)
-
-    print("\nEwaluacja modelu...")
-    acc, report = evaluate_rfc(model, test_df)
-    print(f"Accuracy: {acc}\nRaport klasyfikacji:\n{report}")
-
-    print("\nTestowanie na własnym obrazie (podaj ścieżkę lub Enter by pominąć):")
-    while True:
-        img_path = input("Ścieżka do obrazu (enter żeby zakończyć): ").strip()
-        if not img_path:
-            break
-        try:
-            probas = predict_proba_rfc(model, img_path)
-            prediction = np.argmax(probas, axis=1)[0]
-            print(f"Obraz: {img_path} -> Przewidziana klasa: {prediction}")
-        except Exception as e:
-            print(f"Błąd dla {img_path}: {e}")
-
-    return model
+    return run_model(
+        model_name="rfc",
+        build_fn=build_rfc,
+        train_fn=train_rfc,
+        evaluate_fn=evaluate_rfc,
+        predict_proba_fn=predict_proba_rfc,
+        save_fn=save_rfc,
+        load_fn=load_rfc,
+        action=action,
+        path=path,
+        is_flat=True
+    )
