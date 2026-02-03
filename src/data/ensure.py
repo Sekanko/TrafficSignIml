@@ -12,7 +12,7 @@ def get_merged_data():
     val_df = pd.concat([g_val, p_val], ignore_index=True)
     test_df = pd.concat([g_test, p_test], ignore_index=True)
 
-    train_df = shuffle(train_df, random_state=42).reset_index(drop=True)
+    train_df = shuffle(train_df, random_state=50).reset_index(drop=True)
     val_df = val_df.reset_index(drop=True)
     test_df = test_df.reset_index(drop=True)
 
