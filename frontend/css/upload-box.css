@@ -1,0 +1,33 @@
+.upload-box {
+    border: 2px dashed var(--color-light);
+    border-radius: 12px;
+    padding: 3rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.02);
+    color: var(--color-light);
+}
+
+.upload-box:hover {
+    border-color: var(--color-accent);
+    background-color: rgba(99, 89, 133, 0.1);
+    transform: translateY(-2px); 
+    color: var(--color-white);
+}
+
+.upload-text {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.upload-box svg {
+    transition: transform 0.3s ease;
+}
+
+.upload-box:hover svg {
+    transform: scale(1.1);
+}
