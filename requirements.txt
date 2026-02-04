@@ -6,7 +6,9 @@ scikit-learn
 kagglehub
 matplotlib
 joblib
-keras-tuner
 fastapi
 uvicorn
 python-multipart
+ultralytics
+pyyaml
+keras-tuner
