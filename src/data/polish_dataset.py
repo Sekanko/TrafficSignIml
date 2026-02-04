@@ -8,7 +8,7 @@ from .map_classes import get_polish_mapping
 from .standarize_datasets import standardize_to_gtsrb
 
 
-def get_polish_dataframes(val_size=0.2, test_size=0.1, random_state=42):
+def get_polish_dataframes(val_size=0.2, test_size=0.1, random_state=50):
     path = kagglehub.dataset_download("chriskjm/polish-traffic-signs-dataset")
     mapping = get_polish_mapping()
     data = []
