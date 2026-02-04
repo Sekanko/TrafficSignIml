@@ -14,13 +14,13 @@ def oversample_dataframe(df, target_column='ClassId'):
             df_class, 
             replace=True,
             n_samples=max_count, 
-            random_state=123
+            random_state=50
         )
         dfs_balanced.append(df_upsampled)
 
     balanced_df = pd.concat(dfs_balanced)
     
-    balanced_df = balanced_df.sample(frac=1, random_state=123).reset_index(drop=True)
+    balanced_df = balanced_df.sample(frac=1, random_state=50).reset_index(drop=True)
     
     print(f"Rozmiar zbioru po oversamplingu: {len(balanced_df)}")
     return balanced_df
