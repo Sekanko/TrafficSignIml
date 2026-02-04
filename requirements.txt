@@ -6,3 +6,4 @@ scikit-learn
 kagglehub
 matplotlib
 joblib
+keras-tuner
