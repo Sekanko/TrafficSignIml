@@ -68,7 +68,7 @@ def save_mlp(model, path="mlp_model.keras"):
     print(f"Model MLP zapisany w {path}")
 
 def load_mlp(path="mlp_model.keras"):
-    return models.load_model(path)
+    return models.load_model(path, compile=False)
 
 def run_mlp(action=None, path=None):
     return run_model(

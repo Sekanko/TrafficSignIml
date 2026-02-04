@@ -7,3 +7,6 @@ kagglehub
 matplotlib
 joblib
 keras-tuner
+fastapi
+uvicorn
+python-multipart

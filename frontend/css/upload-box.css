@@ -87,3 +87,46 @@
     transform: scale(1.1);
     transition: all 0.3s ease;
 }
+
+/* --- NOWY STYL: Upload wewnątrz innego boksu (np. w classify.html) --- */
+
+.upload-inner {
+    border: 2px dashed rgba(163, 155, 214, 0.3); /* --ub-accent z alpha */
+    border-radius: 8px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.02);
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.upload-inner:hover {
+    border-color: var(--ub-accent);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.upload-inner svg {
+    fill: var(--ub-light);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.upload-inner:hover svg {
+    fill: var(--ub-accent);
+    transform: scale(1.1);
+}
+
+.upload-inner .upload-text {
+    color: var(--ub-light);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.upload-inner:hover .upload-text {
+    color: var(--ub-white);
+}
