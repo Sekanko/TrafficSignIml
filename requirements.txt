@@ -6,6 +6,9 @@ scikit-learn
 kagglehub
 matplotlib
 joblib
+fastapi
+uvicorn
+python-multipart
 ultralytics
 pyyaml
 keras-tuner
