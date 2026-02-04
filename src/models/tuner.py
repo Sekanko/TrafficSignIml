@@ -48,7 +48,7 @@ def tune_rfc():
     
     rfc = RandomForestClassifier(random_state=50, n_jobs=-1)
     # n_jobs=-1 wykorzystuje wszystkie rdzenie procesora
-    search = RandomizedSearchCV(rfc, param_dist, n_iter=10, cv=3, verbose=2, random_state=42, n_jobs=-1)
+    search = RandomizedSearchCV(rfc, param_dist, n_iter=10, cv=3, verbose=2, random_state=42, n_jobs=1)
     
     search.fit(X_full, y_full)
     

@@ -104,6 +104,16 @@ async def read_index():
     from fastapi.responses import FileResponse
     return FileResponse(os.path.join(FRONTEND_DIR, 'index.html'))
 
+@app.get("/")
+async def read_index():
+    from fastapi.responses import FileResponse
+    return FileResponse(os.path.join(FRONTEND_DIR, 'index.html'))
+
+@app.get("/index.html")
+async def read_index_explicit():
+    from fastapi.responses import FileResponse
+    return FileResponse(os.path.join(FRONTEND_DIR, 'index.html'))
+
 @app.get("/classify.html")
 async def read_classify():
     from fastapi.responses import FileResponse
