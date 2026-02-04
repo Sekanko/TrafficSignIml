@@ -3,6 +3,7 @@ import sys
 from src.models.cnn_model import run_cnn
 from src.models.mlp_model import run_mlp
 from src.models.rfc_model import run_rfc
+from src.models.yolo_model import run_yolo
 
 
 def main():
@@ -29,6 +30,8 @@ def main():
             run_mlp(action=action, path=path)
         case "cnn":
             run_cnn(action=action, path=path)
+        case "yolo":
+            run_yolo(action=action, path=path)
         case _:
             print(f"Model '{model_name}' nie jest jeszcze zaimplementowany.")
 
