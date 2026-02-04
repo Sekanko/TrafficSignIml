@@ -17,3 +17,9 @@ __pycache__/
 **/saved_models
 *.joblib
 *.keras
+*.pt
+data.yaml
+**/detection_yolo
+**/runs
+*.tar
+*.gz

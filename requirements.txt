@@ -6,4 +6,6 @@ scikit-learn
 kagglehub
 matplotlib
 joblib
+ultralytics
+pyyaml
 keras-tuner
