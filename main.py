@@ -1,27 +1,30 @@
 import sys
-
 from src.models.cnn_model import run_cnn
 from src.models.mlp_model import run_mlp
 from src.models.rfc_model import run_rfc
 from src.models.yolo_model import run_yolo
 
+try:
+    from src.models.tuner import run_tuner
+except ImportError:
+    run_tuner = None
 
 def main():
     args = sys.argv[1:]
-
     if len(args) < 1:
-        print("Błąd: Musisz podać nazwę modelu jako pierwszy argument.")
-        print("Użycie: python main.py <model> [action] [path]")
+        print("Błąd: Podaj model.")
         return
 
     model_name = args[0].lower()
+    action = args[1].lower() if len(args) > 1 else None
+    path = args[2] if len(args) > 2 else None
 
-    if len(args) > 2:
-        action = args[1].lower()
-        path = args[2]
-    else:
-        action = None
-        path = None
+    if action == "tune":
+        if run_tuner:
+            run_tuner(model_name)
+        else:
+            print("Brak modułu tunera.")
+        return
 
     match model_name:
         case "rfc":
@@ -33,8 +36,7 @@ def main():
         case "yolo":
             run_yolo(action=action, path=path)
         case _:
-            print(f"Model '{model_name}' nie jest jeszcze zaimplementowany.")
-
+            print(f"Model '{model_name}' nieznany.")
 
 if __name__ == "__main__":
     main()

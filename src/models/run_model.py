@@ -4,6 +4,7 @@ import numpy as np
 
 from src.data.german_dataset import get_german_dataframes
 from src.data.map_classes import to_names
+from src.data.balance import oversample_dataframe
 
 
 def run_model(
@@ -30,6 +31,8 @@ def run_model(
 
     print(f"[{model_name.upper()}] Pobieranie danych...")
     train_df, val_df, test_df = get_german_dataframes()
+
+    train_df = oversample_dataframe(train_df)
 
     if action == "load" and full_path:
         print(f"[{model_name.upper()}] Wczytywanie modelu z {full_path}...")
