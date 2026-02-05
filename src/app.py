@@ -1,14 +1,15 @@
 import os
-import sys
 import shutil
-import numpy as np
+import sys
 from io import BytesIO
+
+import numpy as np
+import uvicorn
 from PIL import Image
 from fastapi import FastAPI, File, UploadFile, Form
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
-import uvicorn
+from fastapi.staticfiles import StaticFiles
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(CURRENT_DIR)
@@ -45,6 +46,7 @@ MODELS = {}
 YOLO_MODEL = None
 NAMES = to_names()
 
+
 def get_yolo():
     global YOLO_MODEL
     if YOLO_MODEL is None:
@@ -53,6 +55,7 @@ def get_yolo():
         load_path = best_path if os.path.exists(best_path) else base_path
         YOLO_MODEL = load_yolo_model(load_path)
     return YOLO_MODEL
+
 
 def get_model(model_name):
     if model_name in MODELS:
@@ -63,15 +66,15 @@ def get_model(model_name):
     predict_fn = None
     loader = None
 
-    if model_name == 'rfc':
+    if model_name == "rfc":
         path = os.path.join(MODELS_DIR, "rfc_best.joblib")
         predict_fn = predict_proba_rfc
         loader = load_rfc
-    elif model_name == 'mlp':
+    elif model_name == "mlp":
         path = os.path.join(MODELS_DIR, "mlp_best.keras")
         predict_fn = predict_proba_mlp
         loader = load_mlp
-    elif model_name == 'cnn':
+    elif model_name == "cnn":
         path = os.path.join(MODELS_DIR, "cnn_best.keras")
         predict_fn = predict_proba_cnn
         loader = load_cnn
@@ -85,17 +88,21 @@ def get_model(model_name):
     MODELS[model_name] = (model, predict_fn)
     return model, predict_fn
 
+
 @app.get("/")
 async def read_index():
-    return FileResponse(os.path.join(FRONTEND_DIR, 'index.html'))
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
 
 @app.get("/index.html")
 async def read_index_explicit():
-    return FileResponse(os.path.join(FRONTEND_DIR, 'index.html'))
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
 
 @app.get("/classify.html")
 async def read_classify():
-    return FileResponse(os.path.join(FRONTEND_DIR, 'classify.html'))
+    return FileResponse(os.path.join(FRONTEND_DIR, "classify.html"))
+
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...), model: str = Form(...)):
@@ -116,13 +123,14 @@ async def predict(file: UploadFile = File(...), model: str = Form(...)):
         return {
             "class_id": prediction_id,
             "class_name": class_name,
-            "confidence": confidence
+            "confidence": confidence,
         }
     except Exception as e:
         return {"error": str(e)}, 500
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
+
 
 @app.post("/detect")
 async def detect(file: UploadFile = File(...), model: str = Form(...)):
@@ -142,6 +150,7 @@ async def detect(file: UploadFile = File(...), model: str = Form(...)):
         return StreamingResponse(buf, media_type="image/png")
     except Exception as e:
         return {"error": str(e)}, 500
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

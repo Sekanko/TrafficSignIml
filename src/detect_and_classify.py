@@ -1,9 +1,11 @@
-from PIL import Image, ImageDraw, ImageFont
-import numpy as np
 import random
+
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+
+from src.data.map_classes import to_names
 from src.data.preprocess_img import crop_image_by_roi
 from src.models.yolo_model import yolo_prediction
-from src.data.map_classes import to_names
 
 
 def detect_and_classify(classifier_name, classifier_model, yolo_model, img_pil):

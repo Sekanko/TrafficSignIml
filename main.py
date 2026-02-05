@@ -1,4 +1,5 @@
 import sys
+
 from src.models.cnn_model import run_cnn
 from src.models.mlp_model import run_mlp
 from src.models.rfc_model import run_rfc
@@ -8,6 +9,7 @@ try:
     from src.models.tuner import run_tuner
 except ImportError:
     run_tuner = None
+
 
 def main():
     args = sys.argv[1:]
@@ -37,6 +39,7 @@ def main():
             run_yolo(action=action, path=path)
         case _:
             print(f"Model '{model_name}' nieznany.")
+
 
 if __name__ == "__main__":
     main()

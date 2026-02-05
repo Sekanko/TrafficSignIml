@@ -52,8 +52,6 @@ def load_rfc(path="rfc_model.joblib"):
     return joblib.load(path)
 
 
-
-
 def run_rfc(action=None, path=None):
     return run_model(
         model_name="rfc",
@@ -65,5 +63,5 @@ def run_rfc(action=None, path=None):
         load_fn=load_rfc,
         action=action,
         path=path,
-        is_flat=True
+        is_flat=True,
     )
