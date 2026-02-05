@@ -1,33 +1,36 @@
-from sklearn.metrics import classification_report
 import numpy as np
 import tensorflow as tf
+from sklearn.metrics import classification_report
 from tensorflow.keras import layers, models
+
 from src.data.preprocess_img import preprocess_image
 from src.models.run_model import run_model
+
 
 def build_mlp(input_shape, num_classes, hp=None):
     model = models.Sequential()
     model.add(layers.Input(shape=input_shape))
 
-    units_1 = hp.Int('units_1', min_value=64, max_value=256, step=64) if hp else 128
+    units_1 = hp.Int("units_1", min_value=64, max_value=256, step=64) if hp else 128
     model.add(layers.Dense(units_1, activation="relu"))
 
-    dropout_rate = hp.Float('dropout', 0.0, 0.5, step=0.1) if hp else 0.2
+    dropout_rate = hp.Float("dropout", 0.0, 0.5, step=0.1) if hp else 0.2
     model.add(layers.Dropout(dropout_rate))
 
-    units_2 = hp.Int('units_2', min_value=32, max_value=128, step=32) if hp else 64
+    units_2 = hp.Int("units_2", min_value=32, max_value=128, step=32) if hp else 64
     model.add(layers.Dense(units_2, activation="relu"))
 
     model.add(layers.Dense(num_classes, activation="softmax"))
 
-    lr = hp.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4]) if hp else 0.001
+    lr = hp.Choice("learning_rate", values=[1e-2, 1e-3, 1e-4]) if hp else 0.001
 
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
         loss="sparse_categorical_crossentropy",
-        metrics=["accuracy"]
+        metrics=["accuracy"],
     )
     return model
+
 
 def train_mlp(model, train_df, val_df, epochs=10, batch_size=32):
     print("Przygotowanie danych treningowych i walidacyjnych...")
@@ -43,9 +46,10 @@ def train_mlp(model, train_df, val_df, epochs=10, batch_size=32):
         y_train,
         epochs=epochs,
         batch_size=batch_size,
-        validation_data=(X_val_flat, y_val)
+        validation_data=(X_val_flat, y_val),
     )
     return history
+
 
 def evaluate_mlp(model, test_df):
     X_test = preprocess_image(test_df["Path"])
@@ -58,17 +62,21 @@ def evaluate_mlp(model, test_df):
     report = classification_report(y_test, y_pred)
     return acc, report
 
+
 def predict_proba_mlp(model, image_path):
     X = preprocess_image(image_path)
     X_flat = X.reshape(X.shape[0], -1)
     return model.predict(X_flat)
 
+
 def save_mlp(model, path="mlp_model.keras"):
     model.save(path)
     print(f"Model MLP zapisany w {path}")
 
+
 def load_mlp(path="mlp_model.keras"):
     return models.load_model(path, compile=False)
+
 
 def run_mlp(action=None, path=None):
     return run_model(
@@ -81,5 +89,5 @@ def run_mlp(action=None, path=None):
         load_fn=load_mlp,
         action=action,
         path=path,
-        is_flat=True
+        is_flat=True,
     )

@@ -2,9 +2,9 @@ import os
 
 import numpy as np
 
+from src.data.balance import oversample_dataframe
 from src.data.german_dataset import get_german_dataframes
 from src.data.map_classes import to_names
-from src.data.balance import oversample_dataframe
 
 
 def run_model(
@@ -17,7 +17,7 @@ def run_model(
     load_fn,
     action=None,
     path=None,
-    is_flat=True
+    is_flat=True,
 ):
     full_path = None
     if path:
@@ -42,7 +42,7 @@ def run_model(
         num_classes = 43
         input_shape = (32 * 32 * 3,) if is_flat else (32, 32, 3)
         model = build_fn(input_shape, num_classes)
-        
+
         train_fn(model, train_df, val_df)
 
     if action == "save" and full_path:
@@ -62,11 +62,13 @@ def run_model(
         try:
             probas = predict_proba_fn(model, img_path)
             prediction = np.argmax(probas, axis=1)[0]
-            
+
             names = to_names()
             class_name = names.get(prediction, "Nieznana klasa")
-            
-            print(f"Obraz: {img_path} -> Przewidziana klasa: {prediction} ({class_name})")
+
+            print(
+                f"Obraz: {img_path} -> Przewidziana klasa: {prediction} ({class_name})"
+            )
         except Exception as e:
             print(f"Błąd dla {img_path}: {e}")
 

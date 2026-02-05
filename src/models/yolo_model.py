@@ -1,10 +1,11 @@
 import os
 import shutil
 
+import kagglehub
 import tensorflow as tf
 import yaml
-import kagglehub
 from ultralytics import YOLO
+
 from src.data.prepare_yolo_data import prepare_yolo_dataset
 
 
@@ -12,10 +13,12 @@ def load_yolo_model(path="yolov8n.pt"):
     model = YOLO(path)
     return model
 
+
 def yolo_evaluation(model):
     print("Starting YOLO Validation...")
     results = model.val()
     return results
+
 
 def train_yolo_model(path, model, epochs=10, img_size=640, batch_size=16):
     yaml_filename = "data.yaml"
@@ -40,6 +43,7 @@ def train_yolo_model(path, model, epochs=10, img_size=640, batch_size=16):
     )
 
     return model
+
 
 def yolo_prediction(model, img):
     conf_threshold = 0.6
@@ -71,7 +75,9 @@ def run_yolo(action=None, path=None):
         model = load_yolo_model(full_path)
     else:
         print(">> Przygotowanie danych...")
-        kaggle_path = kagglehub.dataset_download("chriskjm/polish-traffic-signs-dataset")
+        kaggle_path = kagglehub.dataset_download(
+            "chriskjm/polish-traffic-signs-dataset"
+        )
         detection_data_path = os.path.join(kaggle_path, "detection")
         dataset_path = prepare_yolo_dataset(detection_data_path)
         model = load_yolo_model("yolov8n.pt")
